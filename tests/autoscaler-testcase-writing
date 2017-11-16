@@ -1,0 +1,50 @@
+Autoscaling Test Case writing
+---------------------------------------
+
+
+1. The test case will be a NodeJS script that can be triggered from Mocha
+
+2. Pre-requisites:
+    - There is a Docker Swarm environment available
+    - Autoscaling infra is already setup on this env.
+    - There is at least one service running on the swarm
+    - Host entry for accessing prometheus made in host where test is running.
+
+3. Test Flow:
+
+a) Before Loading: Get the current # of instances of service, CPU, and Memory utilization -store in NO_LOAD_INSTANCES, NO_LOAD_MEMORY, NO_LOAD_CPU
+b) Load the service using the node-module "loadtest"
+c) Wait for 30 sec 
+d) During Load: Get the current # of instances of service, CPU, and Memory utilization -store in LOAD_INSTANCES, LOAD_MEMORY, LOAD_CPU
+e) Stop loading the service
+f) Calculate threshold values of Memory and CPU as follows:
+
+   THRESHOLD_CPU_DOWN = NO_LOAD_CPU + (LOAD_CPU - NO_LOAD_CPU) * 0.1
+   THRESHOLD_CPU_UP = NO_LOAD_CPU + (LOAD_CPU - NO_LOAD_CPU) * 0.8
+
+   THRESHOLD_MEMORY_DOWN = NO_LOAD_MEMORY + (LOAD_MEMORY - NO_LOAD_MEMORY) * 0.1
+   THRESHOLD_MEMORY_UP = NO_LOAD_MEMORY + (LOAD_MEMORY - NO_LOAD_MEMORY) * 0.8
+
+g) Call shell command to do a Service update with new THRESHOLD values (as Labels) 
+
+h) and also set CPU and memory Constraints as follows:
+
+   LIMIT_CPU = LOAD_CPU * 1.1
+   LIMIT_MEMORY = LOAD_MEMORY * 1.1
+
+i) Loadtest the service again (actual test)
+
+j) Wait for 30 sec
+
+k) Get the current # of instances of service, CPU, and Memory utilization -store in TEST_LOAD_INSTANCES, TEST_LOAD_MEMORY, TEST_LOAD_CPU
+
+l) Stop loading the service
+
+m) Wait for 2m
+
+n) Get the current # of instances of service, CPU, and Memory utilization -store in TEST_NO_LOAD_INSTANCES, TEST_NO_LOAD_MEMORY, TEST_NO_LOAD_CPU
+
+o) Check if scale up has happened with (TEST_LOAD_INSTANCES - NO_LOAD_INSTANCES) > 0 && TEST_LOAD_INSTANCES - NO_LOAD_INSTANCES) % step-up count == 0
+
+p) Check if TEST_NO_LOAD_INSTANCES == MINIMUM_INSTANCES
+

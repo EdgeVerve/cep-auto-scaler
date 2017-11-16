@@ -1,0 +1,35 @@
+version: '3'
+services:
+  web:
+    image: $REGISTRY/$DEMO_APP_IMAGE
+    labels:
+        service.autoscale.up.count: 1
+        service.autoscale.down.count: 1
+        service.autoscale.up.cpu: 85
+        service.autoscale.down.cpu: 10
+        service.autoscale.up.instances: 5
+        service.autoscale.down.instances: 2
+    deploy:
+      mode: replicated
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 100M
+    environment:
+      VIRTUAL_HOST: $APP_HOST
+      SERVICE_PORTS: "3000"
+      NODE_ENV: docker
+    depends_on:
+      - mongo
+    networks:
+      - router_network
+      - app_network
+  mongo:
+    image: $REGISTRY/alpine-mongo:latest
+    networks:
+      - app_network
+networks:
+  router_network:
+    external: true
+  app_network:

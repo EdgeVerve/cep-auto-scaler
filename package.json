@@ -1,0 +1,26 @@
+{
+  "name": "auto-scaler",
+  "version": "1.0.0",
+  "description": "Auto Scales Docker Swarm Containers based on CPU and Memory",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "auto-scaler"
+  ],
+  "author": "Ajith Vasudevan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "http": "*",
+    "mongodb": "^2.2.29",
+    "shelljs": "^0.7.8",
+    "request-promise": "*",
+    "request": "^2.74.0",
+    "async": "^2.1.4",
+    "chai": "^3.5.0",
+    "mocha": "2.5.3"
+  }
+}
