@@ -25,7 +25,9 @@ The components used in CEP Autoscaling are as follows:
 3. *CEP-Autoscaler* - This CEP custom component is a NodeJS based application packaged as a Docker image. 
 
 Docker used in CEP is configured as a Prometheus target. This is configured by means of a prometheus.conf file. (See sample prometheus.conf file [here](./prometheus.conf)). This enables the monitoring of the Docker daemon. Alert rules (See sample alert.rules [here](./alert.rules)) are defined in Prometheus to send(POST) metrics query results to Alertmanager whenever specified conditions are met. For example, the rule can specify that a high memory condition should persist for at least 10 minutes before an alert regarding the same is sent to Alertmanager.
+
 Alertmanager forwards the alerts it receives to the configured webhook URL. (see sample alertmanager.conf [here](./alertmanager.conf)). This config specifies the timing and method of alerting downstream component(s). The timing involves throttling of repeated alerts. In our case, we use the webhook method, where we setup a URL hosted by the CEP-Autoscaler. Thus the Alertmanager sends alerts to the CEP-Autoscaler.   
+
 The CEP-Autoscaler receives the alerts meeting the set limits of CPU and memory and timing requirements. It decides whether these alerts require any action in terms of scale-up or scale-down based on hard limits on CPU and memory. These hard limits are setup as part of the application stack (Labels in [docker-compose.yml](./docker-compose-app-cpu.yml)). If a hard limit is crossed, the CEP-Autoscaler will scale the relevant service(s) up or down.
 
 
