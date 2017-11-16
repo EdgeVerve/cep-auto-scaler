@@ -9,7 +9,7 @@ Unlike other orchestration providers such as Openshift, Docker does not provide 
 
 ## High level Block Diagram
 
-![High level Block Diagram](../../images/cep/autoscaler-arch2.jpg)
+![High level Block Diagram](./autoscaler-arch2.jpg)
 
 
 ## Architecture
