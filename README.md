@@ -1,7 +1,9 @@
 ## Introduction
 
 Autoscaling is a method used in cloud computing, whereby the amount of computational resources in a server farm, typically measured in terms of the number of active servers, scales automatically based on the load on the farm.
-In our case, the "server" is the application running in a Docker container, and autoscaling here refers to manipulating the number of running docker containers in a Docker Service based on various load parameters such as CPU usage, memory, etc.,
+In our case, the "server" is the application running in a Docker container, and autoscaling here refers to manipulating the number of running docker containers in a Docker Service based on various load parameters such as CPU usage, memory, etc.
+
+It is part of [CEP](https://github.com/EdgeVerve/cep-provision) installation which takes care of configuration and deployment of this component. It can be used outside CEP provided infrastructure has necessary monitoring setup based on prometheus/alertmanager.
 
 ## Need for custom autoscaling module
 
@@ -70,4 +72,16 @@ See the following for a sample [Alertmanager.conf](./alertmanager.conf) file
 
 See sample [alert.rules](./alert.rules)
 
+## More information
+Please visit [oeCloud.io](https://www.oecloud.io)
+
+## License
+The project is licensed under MIT License, See [LICENSE](./LICENSE) for more details.
+
+## Contributing
+We welcome contributions. Some of the best ways to contribute are to try things out, file bugs, and join in design conversations. 
+
+### [How to contribute](./CONTRIBUTION.md)
+
+### [Report an issue](https://github.com/EdgeVerve/cep-auto-scaler/issues)
 
